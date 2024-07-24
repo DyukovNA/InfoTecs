@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="InfoTecs:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/InfoTecs_jar</output-path>
+    <root id="archive" name="InfoTecs.jar">
+      <element id="module-output" name="InfoTecs" />
+    </root>
+  </artifact>
+</component>
