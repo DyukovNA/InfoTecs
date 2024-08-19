@@ -1,8 +1,12 @@
 package org.students;
 
+
+/**
+ * Этот класс предоставляет методы для работы с данными из файла.
+ */
 public class TextEditor {
     /**
-     * Regexes that are used in class to parse the .json file
+     * Регулярные выражения, используемые в классе для парсинга файла .json.
      */
     public static final String idRegex = "\\s+\"id\": \\d+,?";
     public static final String fieldRegex = "\\s+\"[\\w\\d]+\":\\s+\"?[\\w\\d\\s]+\"?,?\n?";
@@ -15,10 +19,10 @@ public class TextEditor {
     public TextEditor() {}
 
     /**
-     * Writes new student entry into file
-     * @param id ID of new student
-     * @param text StringBuilder with altered file
-     * @param info String of specified format with information about student
+     * Записывает новую запись об ученике в файл
+     * @param id ID нового студента
+     * @param text StringBuilder с измененным файлом
+     * @param info Строка заданного формата с информацией о студенте
      */
     public void writeNewStudent(int id, StringBuilder text, String info) {
         String[] infoPairs = info.split(", ");
@@ -35,10 +39,10 @@ public class TextEditor {
         text.append("\t\t}\n\t]\n}");
     }
     /**
-     * Writes into text new field with data from infoPair
-     * @param i Counter of how many fields is left to write
-     * @param infoPair Contains key and value divided by space
-     * @param text StringBuilder with altered file
+     * Записывает в текст новое поле с данными из infoPair.
+     * @param i Счетчик того, сколько полей осталось записать
+     * @param infoPair Содержит ключ и значение, разделенные пробелом.
+     * @param text StringBuilder с измененным файлом
      */
     public void writeNewField(int i, String infoPair, StringBuilder text) {
         String argumentDgt = "\t\t\t\"%s\": %s";
@@ -55,17 +59,17 @@ public class TextEditor {
     }
 
     /**
-     * Writes line with newline at the end into StringBuilder
+     * Записывает строку с переходом на новую строку строкой в StringBuilder.
      * @param sb StringBuilder
-     * @param line String to write
+     * @param line Строка, которую необходимо записать
      */
     public void writeNewLine(StringBuilder sb, String line) {
         sb.append(line).append("\n");
     }
 
     /**
-     * Parses ID from string of specified format
-     * @param line String of specified format
+     * Находит и возвращает ID из строки определённого формата
+     * @param line Строка определённого формата
      * @return ID
      */
     public int parseId(String line) {
@@ -75,58 +79,60 @@ public class TextEditor {
     }
 
     /**
-     * Removes all special symbols that can be in a json file from string
-     * @param line String to alter
-     * @return Name of field and its value
+     * Удаляет из строки все специальные символы, которые могут быть в файле JSON.
+     * @param line Строка для изменения
+     * @return Имя поля и его значение
      */
     public String clean(String line) {
         return line.replaceAll(symbolsRegex,"");
     }
 
     /**
-     * Checks if String contains valid input
-     * @param line String to be checked
-     * @return True if line contains valid input
+     * Проверяет, содержит ли строка допустимый ввод
+     * @param line Строка для проверки
+     * @return Содержит ли строка действительные данные
      */
     public boolean isValidInput(String line) {
         return line.matches(inputRegex);
     }
+
     /**
-     * Checks if String contains ID
-     * @param line String to be checked
-     * @return True if line contains ID
+     * Проверяет, содержит ли строка идентификатор
+     * @param line Строка для проверки
+     * @return Содержит ли строка ID
      */
     public boolean isId(String line) {
         return line.matches(idRegex);
     }
+
     /**
-     * Checks if String contains '}' that indicates last entry in json list
-     * @param line String to be checked
-     * @return True if line contains '}'
+     * Проверяет, содержит ли строка символ '}', указывающий последнюю запись в списке json.
+     * @param line Строка для проверки
+     * @return Содержит ли строка '}'
      */
     public boolean isEndOfLastEntry(String line) {
         return line.matches(endOfLastEntryRegex);
     }
     /**
-     * Checks if String contains '{' that indicates beginning of new entry in json list
-     * @param line String to be checked
-     * @return True if line contains '{'
+     * Проверяет, содержит ли строка символ '{', указывающий на начало новой записи в списке json
+     * @param line Строка для проверки
+     * @return Содержит ли строка '{'
      */
     public boolean isBeginning(String line) {
         return line.matches(beginOfNewEntryRegex);
     }
     /**
-     * Checks if String contains field of entry in json list
-     * @param line String to be checked
-     * @return True if line contains field
+     * Проверяет, содержит ли строка поле списка json.
+     * @param line Строка для проверки
+     * @return Содержит ли строка поле
      */
     public boolean isField(String line){
         return line.matches(fieldRegex);
     }
     /**
-     * Checks if String contains '},' that indicates beginning of new entry in json list
-     * @param line String to be checked
-     * @return True if line contains '},'
+     * Проверяет, содержит ли строка '},' указывающие на начало новой записи в списке json.
+     * @param line Строка для проверки
+     * @return Содержит ли строка '},'
      */
     public boolean isEndOfEntry(String line) {
        return line.matches(endOfEntryRegex);

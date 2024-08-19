@@ -7,14 +7,14 @@ import java.net.URLConnection;
 import java.util.*;
 
 /**
- * This class includes all methods to work with FTP-server and the file on it
+ * В этот класс входят все методы для работы с FTP-сервером и файлом на нем.
  */
 public class ConsoleClient {
     private final ConnectionHandler connectionHandler;
     private final TextEditor textEditor;
     /**
-     * Builds an FTP-link from the info provided by user in org.students.Main
-     * @param connectionHandler Entity to interact with FTP-server
+     * Создает FTP-ссылку на основе информации, предоставленной пользователем в org.students.Main.
+     * @param connectionHandler Объект для взаимодействия с FTP-сервером
      */
     public ConsoleClient(ConnectionHandler connectionHandler){
         this.connectionHandler = connectionHandler;
@@ -22,22 +22,22 @@ public class ConsoleClient {
     }
 
     /**
-     * Calls methods according to the number of action provided by user
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection in any of methods
+     * Вызывает методы в соответствии с количеством действий, предоставленных пользователем.
+     * @throws IOException Если не удается получить InputStream или OutputStream из URLConnection одним из методов.
      * @see ConnectionHandler
      */
     public void menu(Scanner scanner) throws IOException {
         int action;
 
-        System.out.println("1.\tGet list of students by name\n" +
-                "2.\tGet student's info by id \n" +
-                "3.\tAdd student to list\n" +
-                "4.\tDelete student by id\n" +
-                "5.\tExit\n"
+        System.out.println("1.\tПолучить список студентов по имени\n" +
+                "2.\tПолучить информацию об ученике по id\n" +
+                "3.\tДобавить студента в список\n" +
+                "4.\tУдалить студента по id\n" +
+                "5.\tВыход\n"
         );
 
         do {
-            System.out.println("Select an action:\n");
+            System.out.println("Выберите действие:\n");
             action = scanner.nextInt();
             switch (action) {
                 case 1: {
@@ -57,11 +57,11 @@ public class ConsoleClient {
                     break;
                 }
                 case 5: {
-                    System.out.println("Exiting session...");
+                    System.out.println("Выход из сеанса...");
                     break;
                 }
                 default: {
-                    System.out.println("Unknown command");
+                    System.out.println("Неизвестная команда");
                     break;
                 }
             }
@@ -69,59 +69,59 @@ public class ConsoleClient {
     }
 
     /**
-     * Checks if list of students is empty. Prints out list or error message
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection
+     * Проверяет, пуст ли список студентов. Выводит список или сообщение об ошибке
+     * @throws IOException Если невозможно получить InputStream или OutputStream из URLConnection
      * @see ConnectionHandler
      */
     private void showSortedStudentList() throws IOException {
         String toReturn = getSortedListOfStudents();
         if (toReturn.equals("")) {
-            System.out.println("No students found");
+            System.out.println("Студенты не найдены");
             return;
         }
         System.out.println(toReturn);
     }
 
     /**
-     * Interacts with user to get ID of the student whose information is needed.
-     * Calls getStudentInfo() method to get data of student with given ID.
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection
+     * Взаимодействует с пользователем, чтобы получить идентификатор студента, информацию о котором нужно найти.
+     * Вызывает метод getStudentInfo() для получения данных студента с заданным идентификатором.
+     * @throws IOException Если невозможно получить InputStream или OutputStream из URLConnection
      * @see ConnectionHandler
      */
     private void showStudentInfo() throws IOException {
-        System.out.println("Please, enter student's ID:");
+        System.out.println("Пожалуйста, введите идентификатор студента:");
         Scanner scanner = new Scanner(System.in);
         String id = scanner.nextLine();
         System.out.println(getStudentInfo(id));
     }
 
     /**
-     * Interacts with user to get information about the student that needs to be added to the file.
-     * Calls addStudent() method to add student with given arguments.
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection
+     * Взаимодействует с пользователем, чтобы получить информацию об ученике, которую необходимо добавить в файл.
+     * Вызывает метод addStudent() для добавления студента с заданными аргументами.
+     * @throws IOException Если невозможно получить InputStream или OutputStream из URLConnection
      * @see ConnectionHandler
      * @see TextEditor
      */
     private void showAddStudent() throws IOException {
-        System.out.println("Please, enter student's information:\n\n" +
-                "Note: enter arguments and their values in pairs. " +
-                "Pairs are divided by space and comma (', '). \n" +
-                "Argument and its value are divided by space\n" +
-                "For example: name Alex, age 20\n");
+        System.out.println("Пожалуйста, введите данные студента:\n\n" +
+                "Примечание: вводите аргументы и их значения парами. " +
+                "Пары разделяются пробелом и запятой (', '). \n" +
+                "Аргумент и его значение разделяются пробелом.\n" +
+                "Например: name Alex, age 20\n");
         Scanner scanner = new Scanner(System.in);
         String info = scanner.nextLine();
         if (!textEditor.isValidInput(info)) {
-            System.out.println("Invalid input");
+            System.out.println("Неверный ввод");
             return;
         }
         addStudent(info);
-        System.out.println("Student successfully added");
+        System.out.println("Студент успешно добавлен");
     }
 
     /**
-     * Interacts with user to get ID of the student that needs to be removed from the file.
-     * Calls deleteStudent() method to remove student with given ID.
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection
+     * Взаимодействует с пользователем, чтобы получить идентификатор учащегося, которого необходимо удалить из файла.
+     * Вызывает метод deleteStudent() для удаления студента с заданным идентификатором.
+     * @throws IOException Если невозможно получить InputStream или OutputStream из URLConnection
      * @see ConnectionHandler
      */
     private void showDeleteStudent() throws IOException {
@@ -133,9 +133,9 @@ public class ConsoleClient {
     }
 
     /**
-     * Sorts list of students in alphabetical order and formats it into string
-     * @return String with numbered list
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection
+     * Сортирует список студентов в алфавитном порядке и форматирует его в строку.
+     * @return Строку с нумерованным списком
+     * @throws IOException Если невозможно получить InputStream или OutputStream из URLConnection
      */
     public String getSortedListOfStudents() throws IOException {
         List<String> students = getListOfStudents();
@@ -149,10 +149,10 @@ public class ConsoleClient {
     }
 
     /**
-     * Finds student with specified ID if file and returns all information written in file
-     * @param id ID of student
-     * @return String with all information about the student in file
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection
+     * Находит студента с указанным идентификатором в файле и возвращает всю информацию, записанную в файле.
+     * @param id ID студента
+     * @return Строка со всей информацией об ученике в файле
+     * @throws IOException Если невозможно получить InputStream или OutputStream из URLConnection
      * @see ConnectionHandler
      */
     public String getStudentInfo(String id) throws IOException {
@@ -160,16 +160,16 @@ public class ConsoleClient {
 
         findStudentGetInfo(id, data);
         if (data.isEmpty()) {
-            return "No information found";
+            return "Информация не найдена";
         }
 
         return data.toString().replaceAll("[{}]", "").replace("=", ": ");
     }
 
     /**
-     * Writes information about student into file. Generates ID.
-     * @param info String of specified format with information about student
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection
+     * Записывает информацию об ученике в файл. Генерирует идентификатор.
+     * @param info Строка заданного формата с информацией о студенте
+     * @throws IOException Если невозможно получить InputStream или OutputStream из URLConnection
      * @see ConnectionHandler
      * @see TextEditor
      */
@@ -185,10 +185,10 @@ public class ConsoleClient {
     }
 
     /**
-     * Removes record of student with given ID by rewriting whole file and skipping unneeded part.
-     * Changes IDs if necessary.
-     * @param idToRemove ID of student
-     * @throws IOException If is unable to get InputStream or OutputStream from URLConnection
+     * Удаляет запись студента с заданным идентификатором, переписывая весь файл и пропуская ненужную часть.
+     * При необходимости меняет идентификаторы.
+     * @param idToRemove ID студента
+     * @throws IOException Если невозможно получить InputStream или OutputStream из URLConnection
      * @see ConnectionHandler
      * @see TextEditor
      */
@@ -203,8 +203,8 @@ public class ConsoleClient {
     }
 
     /**
-     * Fills empty list with names found in file
-     * @throws IOException If is unable to get InputStream from URLConnection
+     * Заполняет пустой список именами, найденными в файле
+     * @throws IOException Если не удается получить InputStream из URLConnection
      * @see URLConnection
      * @see TextEditor
      */
@@ -224,10 +224,10 @@ public class ConsoleClient {
     }
 
     /**
-     * Finds student in file by provided ID and reads all its fields
-     * @param idToFind Provided ID
-     * @param data Map for arguments and their values
-     * @throws IOException If is unable to get InputStream from URLConnection
+     * Находит студента в файле по указанному идентификатору и читает все его поля.
+     * @param idToFind Предоставленный идентификатор
+     * @param data Словарь аргументов и их значений
+     * @throws IOException Если не удается получить InputStream из URLConnection
      * @see URLConnection
      * @see TextEditor
      */
@@ -250,10 +250,10 @@ public class ConsoleClient {
     }
 
     /**
-     * Writes formatted information about student into StringBuilder
-     * @param text Where to write information
-     * @param info Information about student
-     * @throws IOException If unable to work with BufferedReader
+     * Записывает форматированную информацию об ученике в StringBuilder.
+     * @param text StringBuilder в который записывается информация
+     * @param info Информация о студенте
+     * @throws IOException Если невозможно работать с BufferedReader
      */
     private void writeStudentToSB(StringBuilder text, String info) throws IOException {
         BufferedReader reader = connectionHandler.getReader();
@@ -284,10 +284,10 @@ public class ConsoleClient {
     }
 
     /**
-     * Rewrites file into StringBuilder while ignoring student with idToRemove
-     * @param text Where to write altered file
-     * @param idToRemove ID of student that needs ti be removed
-     * @throws IOException If unable to work with BufferedReader
+     * Перезаписывает файл в StringBuilder, игнорируя студента с помощью idToRemove.
+     * @param text StringBuilder в который записывается информация
+     * @param idToRemove Идентификатор студента, которого необходимо удалить
+     * @throws IOException Если невозможно работать с BufferedReader
      */
     private void writeWithoutStudent(StringBuilder text, String idToRemove) throws IOException {
         BufferedReader reader = connectionHandler.getReader();
@@ -318,9 +318,10 @@ public class ConsoleClient {
     }
 
     /**
-     * Is called on every line that contains ID. If entry with idToRemove is already removed writes line to text with
-     * ID lowered by 1. If ID in line matches idToRemove calls skipStudent() so that student won't be written into
-     * studentBlock. In any other cases writes line into studentBlock.
+     * Вызывается в каждой строке, содержащей идентификатор. Если запись с idToRemove уже удалена, строка записывается в
+     * текст с идентификатором, уменьшенным на 1. Если идентификатор в строке соответствует idToRemove, вызывает
+     * skipStudent(), чтобы студент не был записан в StudentBlock, который содержит информацию об одном конкретном
+     * студенте. В остальных случаях записывает строку в StudentBlock.
      * @param idToRemove ID of student
      * @param line Last line read by BufferedReader
      * @param isRemoved Indicator of if the student was removed
@@ -349,14 +350,12 @@ public class ConsoleClient {
     }
 
     /**
-     * Skips lines of file that contain fields of student entry
+     * Пропускает всю информацию записанную о студените
      * @param line Last line read by BufferedReader
      * @param reader BufferedReader of file
      * @param text StringBuilder with altered file
      */
-    private void skipStudent(
-            String line, BufferedReader reader, StringBuilder text
-    ) throws IOException {
+    private void skipStudent(String line, BufferedReader reader, StringBuilder text) throws IOException {
         while (textEditor.isField(line)) {
             line = reader.readLine();
         }
@@ -368,8 +367,8 @@ public class ConsoleClient {
     }
 
     /**
-     * If file is empty writes empty json list "students" into file
-     * @throws IOException If unable to read next line
+     * Записывает в пустой файл пустой список "students".
+     * @throws IOException Если невозможно прочитать следующую строку
      */
     private void writeHeaderIfEmpty() throws IOException {
         String header = getHeaderIfEmpty();
@@ -382,8 +381,8 @@ public class ConsoleClient {
     }
 
     /**
-     * Checks if file is empty, if so returns empty json list "students"
-     * @throws IOException If unable to read next line
+     * Проверяет, пуст ли файл. Если да, возвращает пустой список json "students".
+     * @throws IOException Если невозможно прочитать следующую строку
      */
     private String getHeaderIfEmpty() throws IOException {
         BufferedReader reader = connectionHandler.getReader();

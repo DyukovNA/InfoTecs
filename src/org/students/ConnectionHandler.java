@@ -5,33 +5,30 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * This class provides methods for interaction with FTP-server
+ * Этот класс предоставляет методы для взаимодействия с FTP-сервером.
  */
 public class ConnectionHandler {
     /**
-     * Fields for an FTP-link and filename
+     * Поля для FTP-ссылки и имени файла
      */
     public final String link;
 
     /**
-     * Creates FTP-link using user input and name of the file that should be stored on server
-     * @param input User input with login information
-     * @param JSONName Name of file
+     * Создает FTP-ссылку, используя ввод пользователя и имя файла, который должен храниться на сервере.
+     * @param input Пользовательский ввод с информацией для входа
+     * @param JSONName Имя файла
      */
-    public ConnectionHandler(String input, String JSONName) {
+    public ConnectionHandler(String input, String JSONName) throws IOException {
         String[] loginInfo = input.split(" ");
         this.link = "ftp://" + loginInfo[0] + ":" + loginInfo[1] + "@" + loginInfo[2] + "/" + JSONName;
-        try {
-            BufferedReader reader = getReader();
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("\nConnection error. Check your login information and try again\n");
-        }
+
+        BufferedReader reader = getReader();
+        reader.close();
     }
     /**
-     * Creates BufferedReader to read the file from the connection.
-     * @return BufferedReader to read the file
-     * @throws IOException If is unable to get InputStream from URLConnection
+     * Создает BufferedReader для чтения файла из соединения..
+     * @return BufferedReader для чтения файла
+     * @throws IOException Если не удается получить InputStream из URLConnection
      * @see URLConnection
      */
     public BufferedReader getReader() throws IOException {
@@ -43,8 +40,8 @@ public class ConnectionHandler {
     /**
      * Creates BufferedWriter to write to the file from connection.
      * @return BufferedWriter to write to the file
-     * @throws IOException If is unable to get OutputStream from URLConnection
-     * @see URLConnection If is unable to get InputStream or OutputStream from URLConnection
+     * @throws IOException Если не удается получить OutputStream из URLConnection
+     * @see URLConnection
      */
     public BufferedWriter getWriter() throws IOException {
         URLConnection connection = setConnection();
@@ -54,9 +51,9 @@ public class ConnectionHandler {
     }
 
     /**
-     * Establishes connection with FTP-server and file on it. Creates
-     * @return Connection to FTP-server
-     * @see URLConnection If is unable to get InputStream or OutputStream from URLConnection
+     * Устанавливает соединение с FTP-сервером и файлом на нем.
+     * @return Подключение к FTP-серверу
+     * @see URLConnection
      */
     public URLConnection setConnection() {
         try {
@@ -65,7 +62,7 @@ public class ConnectionHandler {
             connection.connect();
             return connection;
         } catch (IOException e) {
-            System.out.println("Unable to connect to server");
+            System.out.println("Невозможно подключиться к серверу");
             e.printStackTrace();
         }
         return null;
