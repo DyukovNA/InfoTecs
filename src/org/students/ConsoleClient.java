@@ -7,7 +7,7 @@ import java.net.URLConnection;
 import java.util.*;
 
 /**
- * В этот класс входят все методы для работы с FTP-сервером и файлом на нем.
+ * В данном классе описаны функции, которые предоставляет клиент, а также меню для их вызова
  */
 public class ConsoleClient {
     private final ConnectionHandler connectionHandler;

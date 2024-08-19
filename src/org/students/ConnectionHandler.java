@@ -5,7 +5,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * Этот класс предоставляет методы для взаимодействия с FTP-сервером.
+ * Этот класс предоставляет методы для установки соединения и взаимодействия с FTP-сервером.
  */
 public class ConnectionHandler {
     /**
